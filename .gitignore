@@ -1,0 +1,16 @@
+# Compiled binaries (build output only, not source dirs)
+/device-plugin
+/scheduler
+*.exe
+*.test
+*.out
+# Go build cache / vendor (if ever used)
+vendor/
+
+# OS / editor cruft
+.DS_Store
+.vscode/
+*.swp
+
+# Env files if we ever add local secrets/config
+.env
