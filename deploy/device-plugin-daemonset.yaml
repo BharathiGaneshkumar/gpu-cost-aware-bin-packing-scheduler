@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: fake-gpu-device-plugin
+  name: simulated-gpu-device-plugin
   namespace: kube-system
   labels:
-    app: fake-gpu-device-plugin
+    app: simulated-gpu-device-plugin
 spec:
   selector:
     matchLabels:
-      app: fake-gpu-device-plugin
+      app: simulated-gpu-device-plugin
   template:
     metadata:
       labels:
-        app: fake-gpu-device-plugin
+        app: simulated-gpu-device-plugin
     spec:
       priorityClassName: system-node-critical
       containers:
-        - name: fake-gpu-device-plugin
-          image: fake-gpu-device-plugin:latest
+        - name: simulated-gpu-device-plugin
+          image: simulated-gpu-device-plugin:latest
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: device-plugin

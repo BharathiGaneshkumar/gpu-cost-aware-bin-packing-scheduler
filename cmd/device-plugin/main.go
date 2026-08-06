@@ -16,10 +16,10 @@ import (
 )
 
 const (
-	// resourceName is what pods will request, e.g. resources.limits["fake.com/gpu"]: 1
-	resourceName = "fake.com/gpu"
+	// resourceName is what pods will request, e.g. resources.limits["simulated.com/gpu"]: 1
+	resourceName = "simulated.com/gpu"
 	// socketPath is where the kubelet expects to find our plugin's socket
-	socketPath    = pluginapi.DevicePluginPath + "fakegpu.sock"
+	socketPath    = pluginapi.DevicePluginPath + "simulatedgpu.sock"
 	kubeletSocket = pluginapi.DevicePluginPath + "kubelet.sock"
 )
 
@@ -35,7 +35,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	pluginapi.RegisterDevicePluginServer(grpcServer, &deviceplugin.FakeGPUPlugin{})
+	pluginapi.RegisterDevicePluginServer(grpcServer, &deviceplugin.SimulatedGPUPlugin{})
 
 	go func() {
 		log.Printf("device plugin gRPC server listening on %s", socketPath)
