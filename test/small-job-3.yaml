@@ -11,6 +11,6 @@ spec:
       command: ["sleep", "3600"]
       resources:
         requests:
-          simulated.com/gpu: "2"
+          simulated.com/gpu-2: "5"
         limits:
-          simulated.com/gpu: "2"
+          simulated.com/gpu-2: "5"
