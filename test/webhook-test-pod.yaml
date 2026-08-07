@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webhook-test-job
+  annotations:
+    gpu-units-needed: "5"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]

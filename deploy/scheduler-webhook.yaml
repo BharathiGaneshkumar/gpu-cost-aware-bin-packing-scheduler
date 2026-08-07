@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler-webhook
+  namespace: kube-system
+  labels:
+    app: scheduler-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scheduler-webhook
+  template:
+    metadata:
+      labels:
+        app: scheduler-webhook
+    spec:
+      serviceAccountName: scheduler-webhook
+      containers:
+        - name: scheduler-webhook
+          image: scheduler-webhook:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8443
+          volumeMounts:
+            - name: tls-certs
+              mountPath: /certs
+              readOnly: true
+      volumes:
+        - name: tls-certs
+          secret:
+            secretName: scheduler-webhook-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scheduler-webhook
+  namespace: kube-system
+spec:
+  selector:
+    app: scheduler-webhook
+  ports:
+    - port: 443
+      targetPort: 8443

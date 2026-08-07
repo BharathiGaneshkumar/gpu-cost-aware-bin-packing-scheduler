@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: no-annotation-job
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]

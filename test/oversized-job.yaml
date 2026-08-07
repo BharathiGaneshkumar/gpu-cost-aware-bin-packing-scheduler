@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: oversized-job
+  annotations:
+    gpu-units-needed: "15"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]

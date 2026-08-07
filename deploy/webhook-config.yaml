@@ -1,0 +1,25 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: gpu-scheduler-webhook
+webhooks:
+  - name: gpu-scheduler.simulated.com
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
+    clientConfig:
+      service:
+        name: scheduler-webhook
+        namespace: kube-system
+        path: "/mutate"
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURIekNDQWdlZ0F3SUJBZ0lVVHMzN0Z4Z2Q4TGNDZjRFM3dDbG04VlVkRXlFd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0h6RWRNQnNHQTFVRUF3d1VjMk5vWldSMWJHVnlMWGRsWW1odmIyc3RZMkV3SGhjTk1qWXdPREEzTVRjeQpNREk1V2hjTk1qY3dPREEzTVRjeU1ESTVXakFmTVIwd0d3WURWUVFEREJSelkyaGxaSFZzWlhJdGQyVmlhRzl2CmF5MWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFPYVRhZ1pYdUdtSHFsM0wKb0VENzVEYVRWVkxHclpMZnZCSkhQcFVzWi9UQy9yOURTbmVwc09KRnVXMUdWWEFKVERKazVsb0N5YmxzT20wSAp0N2RVREpjVFQ2MCtJZjQwOXR5RmFvWGpUSUNVMmNHdVd2OWIxZTRkblZtNDBzdnBLOEJ3UE9XcVRjY3ZIZStHCjVReGRjK0YxVnN6NldTNml0K3VuZDZTT21GY25SUkRScTNFcEtDSmVyczg1WDhCcnNvRjhqditwWWFaYWRObTIKSk51NFQvc09RQmVBbjRvTUw2SDRnMmtrdVltVWVXZUdrb0ZJMHd1bnNQUDNwUWhnKzRndjNlbTc5TXVHcEZkYwp4VUZoY1B0NlF4RGFRNUM3Ylg1K3ZDMzlMb3RDaFdLK21XS1Uzc0k1NGFsU2xkeEdXVzloL0hIeEVTV21SSFY0CmhudnNzTkVDQXdFQUFhTlRNRkV3SFFZRFZSME9CQllFRkhKMEF5L3MwWGJxMFJjOXdxMHI1c0NXT3EyM01COEcKQTFVZEl3UVlNQmFBRkhKMEF5L3MwWGJxMFJjOXdxMHI1c0NXT3EyM01BOEdBMVVkRXdFQi93UUZNQU1CQWY4dwpEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBT05LUlBhMHBJVGNXaW4wVE1VZ3hUZjVXOEVHSkVuVVRuZ2xwVFYvCjBIeWRQQTF5MFhOY01KRkZpSE5VRSs3VXB0NEJ0Z1JKVTNSZzdZRkJaV3hQck5lQ1UwU3FvMUovVVhTaTdmdWMKNjQvemYxWnp6NkN3U1RZK2cyUXptRUwzR0hzY2FGSUcxRUhUVGQvV3BWWkhDRkhKdDNGWjJrMWxlMC96MVpxRwp3WGw0OS9Cd1JyNGVOVjEwREdJcTQ0aWY5NXJ6NmNudzl5L0E2U0dFQ2NSWDJuc0d5dVFXaUtHMk03L1dTZmRECnorUHRneEl4WXU0enRTSUJPdG9xbkpqaS9mczVrcVpXK0pyVkNCSDMvZmtCbVVsYmY5bUZzTW9wdnhPR1JXVjgKU1B0WkFPbkdZTlZCajZkMkx3S0RTUjJnVWxUQm1SQnh5TTkvR3VaZ2xhZ1A1STA9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    rules:
+      - operations: ["CREATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: NotIn
+          values: ["kube-system"]
+    failurePolicy: Ignore

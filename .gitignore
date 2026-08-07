@@ -14,3 +14,4 @@ vendor/
 
 # Env files if we ever add local secrets/config
 .env
+certs/

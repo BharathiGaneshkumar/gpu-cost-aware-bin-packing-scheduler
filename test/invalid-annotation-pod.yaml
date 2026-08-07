@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: invalid-annotation-job
+  annotations:
+    gpu-units-needed: "abc"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
