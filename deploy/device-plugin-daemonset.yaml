@@ -14,11 +14,24 @@ spec:
       labels:
         app: simulated-gpu-device-plugin
     spec:
+      serviceAccountName: simulated-gpu-device-plugin
       priorityClassName: system-node-critical
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: gpu-id
+                    operator: Exists
       containers:
         - name: simulated-gpu-device-plugin
           image: simulated-gpu-device-plugin:latest
           imagePullPolicy: IfNotPresent
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           volumeMounts:
             - name: device-plugin
               mountPath: /var/lib/kubelet/device-plugins
