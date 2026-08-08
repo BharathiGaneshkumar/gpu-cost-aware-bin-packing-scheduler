@@ -20,12 +20,7 @@ import (
 	"gpu-bin-packing-scheduler/internal/deviceplugin"
 )
 
-var (
-	gpuID         string
-	resourceName  string
-	socketPath    string
-	kubeletSocket = pluginapi.DevicePluginPath + "kubelet.sock"
-)
+var kubeletSocket = pluginapi.DevicePluginPath + "kubelet.sock"
 
 func main() {
 	nodeName := os.Getenv("NODE_NAME")
@@ -33,47 +28,90 @@ func main() {
 		log.Fatal("NODE_NAME env var must be set via Downward API (spec.nodeName)")
 	}
 
-	var err error
-	gpuID, err = lookupGPUIDFromNodeLabel(nodeName)
+	gpuID, err := lookupGPUIDFromNodeLabel(nodeName)
 	if err != nil {
 		log.Fatalf("failed to look up gpu-id label for node %s: %v", nodeName, err)
 	}
 
-	resourceName = fmt.Sprintf("simulated.com/gpu-%s", gpuID)
-	socketPath = pluginapi.DevicePluginPath + fmt.Sprintf("simulatedgpu-%s.sock", gpuID)
+	// Server 1: the existing per-GPU resource, used by our webhook's
+	// bin-packing logic (simulated.com/gpu-0, gpu-1, etc.)
+	perGPUResource := fmt.Sprintf("simulated.com/gpu-%s", gpuID)
+	perGPUSocket := fmt.Sprintf("simulatedgpu-%s.sock", gpuID)
+	if err := startPluginServer(perGPUSocket, perGPUResource, gpuID); err != nil {
+		log.Fatalf("failed to start per-GPU plugin server: %v", err)
+	}
+
+	// Server 2: a shared, identically-named resource across all GPU
+	// nodes, purely so the REAL Kubernetes scheduler has multiple nodes
+	// to actually choose between when scored under LeastAllocated /
+	// MostAllocated -- needed for a fair Phase 4 baseline comparison.
+	sharedResource := "simulated.com/gpu-capacity"
+	sharedSocket := fmt.Sprintf("simulatedgpu-capacity-%s.sock", gpuID)
+	if err := startPluginServer(sharedSocket, sharedResource, gpuID); err != nil {
+		log.Fatalf("failed to start shared-capacity plugin server: %v", err)
+	}
+
+	log.Println("both plugin servers running")
+	select {}
+}
+
+// startPluginServer starts a gRPC device plugin server on its own socket,
+// registers it with the kubelet under the given resource name, and
+// returns once registration succeeds (the server itself keeps running in
+// a background goroutine).
+func startPluginServer(socketFile, resourceName, gpuID string) error {
+	socketPath := pluginapi.DevicePluginPath + socketFile
 
 	if err := os.Remove(socketPath); err != nil && !os.IsNotExist(err) {
-		log.Fatalf("failed to remove old socket: %v", err)
+		return fmt.Errorf("failed to remove old socket %s: %w", socketPath, err)
 	}
 
 	listener, err := net.Listen("unix", socketPath)
 	if err != nil {
-		log.Fatalf("failed to listen on %s: %v", socketPath, err)
+		return fmt.Errorf("failed to listen on %s: %w", socketPath, err)
 	}
 
 	grpcServer := grpc.NewServer()
 	pluginapi.RegisterDevicePluginServer(grpcServer, &deviceplugin.SimulatedGPUPlugin{GPUID: gpuID})
 
 	go func() {
-		log.Printf("device plugin for GPU %s listening on %s", gpuID, socketPath)
+		log.Printf("plugin server for resource %s listening on %s", resourceName, socketPath)
 		if err := grpcServer.Serve(listener); err != nil {
-			log.Fatalf("grpc server stopped: %v", err)
+			log.Fatalf("grpc server for %s stopped: %v", resourceName, err)
 		}
 	}()
 
 	time.Sleep(1 * time.Second)
 
-	if err := registerWithKubelet(); err != nil {
-		log.Fatalf("failed to register with kubelet: %v", err)
+	if err := registerWithKubelet(socketFile, resourceName); err != nil {
+		return fmt.Errorf("failed to register %s: %w", resourceName, err)
 	}
-
-	log.Printf("registered resource %s with kubelet, plugin running", resourceName)
-	select {}
+	log.Printf("registered resource %s with kubelet", resourceName)
+	return nil
 }
 
-// lookupGPUIDFromNodeLabel authenticates to the Kubernetes API using this
-// pod's ServiceAccount (in-cluster config), fetches the Node object this
-// pod is running on, and returns its "gpu-id" label value.
+func registerWithKubelet(socketFile, resourceName string) error {
+	conn, err := grpc.NewClient(
+		"unix://"+kubeletSocket,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	client := pluginapi.NewRegistrationClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err = client.Register(ctx, &pluginapi.RegisterRequest{
+		Version:      pluginapi.Version,
+		Endpoint:     filepath.Base(socketFile),
+		ResourceName: resourceName,
+	})
+	return err
+}
+
 func lookupGPUIDFromNodeLabel(nodeName string) (string, error) {
 	config, err := rest.InClusterConfig()
 	if err != nil {
@@ -98,26 +136,4 @@ func lookupGPUIDFromNodeLabel(nodeName string) (string, error) {
 		return "", fmt.Errorf("node %s has no gpu-id label", nodeName)
 	}
 	return id, nil
-}
-
-func registerWithKubelet() error {
-	conn, err := grpc.NewClient(
-		"unix://"+kubeletSocket,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-	)
-	if err != nil {
-		return err
-	}
-	defer conn.Close()
-
-	client := pluginapi.NewRegistrationClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	_, err = client.Register(ctx, &pluginapi.RegisterRequest{
-		Version:      pluginapi.Version,
-		Endpoint:     filepath.Base(socketPath),
-		ResourceName: resourceName,
-	})
-	return err
 }
