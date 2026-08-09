@@ -71,7 +71,7 @@ func eligibleTiers(jobType JobType) map[Tier]bool {
 // (3) lowest cost tier
 // (4) least-recently-used
 // (5) random, final tie-break among truly identical candidates
-func SelectGPU(gpus []GPU, job Job, rng *rand.Rand) (string, error) {
+func SelectGPU(gpus []GPU, job Job, recentAvgJobSize int, rng *rand.Rand) (string, error) {
 	if len(gpus) == 0 {
 		return "", ErrNoGPUs
 	}
@@ -114,6 +114,8 @@ func SelectGPU(gpus []GPU, job Job, rng *rand.Rand) (string, error) {
 	if len(candidates) == 0 {
 		return "", ErrNoFit
 	}
+
+	candidates = headroomPreservingCandidates(candidates, job, recentAvgJobSize)
 
 	best := bestCombinedLeftoverCandidates(candidates, job)
 	best = durationFitCandidates(best, job)
@@ -214,4 +216,38 @@ func leastRecentlyUsedCandidates(gpus []GPU) []GPU {
 		}
 	}
 	return result
+}
+
+// headroomPreservingCandidates biases away from candidates that would
+// leave the ENTIRE cluster without any GPU holding "typical" headroom
+// (free compute >= recentAvgJobSize), preferring candidates that keep at
+// least one GPU roomy for whatever job-sized-like-recent-ones arrives
+// next. If every candidate would eliminate cluster headroom regardless,
+// no restriction is applied -- placing the job at all takes priority
+// over preserving headroom that's already unavoidable to lose.
+func headroomPreservingCandidates(candidates []GPU, job Job, recentAvgJobSize int) []GPU {
+	if recentAvgJobSize <= 0 || len(candidates) <= 1 {
+		return candidates
+	}
+
+	var preserving []GPU
+	for _, g := range candidates {
+		remaining := g.FreeCompute - job.Units
+		keepsHeadroom := remaining >= recentAvgJobSize
+		if !keepsHeadroom {
+			for _, other := range candidates {
+				if other.ID != g.ID && other.FreeCompute >= recentAvgJobSize {
+					keepsHeadroom = true
+					break
+				}
+			}
+		}
+		if keepsHeadroom {
+			preserving = append(preserving, g)
+		}
+	}
+	if len(preserving) == 0 {
+		return candidates
+	}
+	return preserving
 }
