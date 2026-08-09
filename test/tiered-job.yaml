@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tiered-test-job
+  annotations:
+    gpu-units-needed: "3"
+    gpu-memory-needed: "20"
+    gpu-job-type: "latency-sensitive"
+    gpu-expected-duration: "120"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
