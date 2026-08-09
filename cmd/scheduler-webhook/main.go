@@ -92,7 +92,12 @@ func buildResponse(ctx context.Context, uid types.UID, pod corev1.Pod) *admissio
 	}
 
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-	gpuID, err := scheduler.SelectGPU(gpus, units, rng)
+	job := scheduler.Job{
+		Units:    units,
+		MemoryGB: 1,                          // TEMPORARY placeholder -- Chunk 4 will parse a real gpu-memory-needed annotation
+		Type:     scheduler.JobBatchTolerant, // TEMPORARY placeholder -- Chunk 4 will parse a real gpu-job-type annotation
+	}
+	gpuID, err := scheduler.SelectGPU(gpus, job, rng)
 	if err != nil {
 		log.Printf("pod %s: no GPU fit for %d units: %v", pod.Name, units, err)
 		base.Allowed = false

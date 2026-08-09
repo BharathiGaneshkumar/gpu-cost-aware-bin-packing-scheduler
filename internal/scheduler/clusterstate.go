@@ -15,11 +15,20 @@ const (
 	resourcePrefix = "simulated.com/gpu-"
 	gpuCapacity    = 10
 	numGPUs        = 4
+
+	// TEMPORARY placeholder defaults until Chunk 3 wires in real
+	// per-node tier/memory data read from node labels.
+	placeholderMemoryGB = 40
+	placeholderTier     = TierMid
+	placeholderCost     = 0.15
 )
 
 // FetchClusterState queries the live cluster for current GPU allocation
-// state, computing free units per simulated GPU by subtracting all
-// currently-requested units from each GPU's known fixed capacity.
+// state, computing free compute units per simulated GPU by subtracting
+// all currently-requested units from each GPU's known fixed capacity.
+//
+// NOTE: memory/tier/cost fields are placeholder-uniform values for now --
+// Chunk 3 will replace this with real per-node data from node labels.
 func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset) ([]GPU, error) {
 	pods, err := clientset.CoreV1().Pods("").List(ctx, metav1.ListOptions{
 		FieldSelector: "status.phase=Running",
@@ -28,7 +37,7 @@ func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset) ([]
 		return nil, fmt.Errorf("failed to list pods: %w", err)
 	}
 
-	used := make(map[string]int) // gpu ID -> units currently claimed
+	used := make(map[string]int) // gpu ID -> compute units currently claimed
 
 	for _, pod := range pods.Items {
 		for _, container := range pod.Spec.Containers {
@@ -48,11 +57,14 @@ func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset) ([]
 	for i := 0; i < numGPUs; i++ {
 		id := strconv.Itoa(i)
 		gpus = append(gpus, GPU{
-			ID:        id,
-			Capacity:  gpuCapacity,
-			FreeUnits: gpuCapacity - used[id],
-			CostTier:  1, // uniform for now -- tier extension comes later
-			LastUsed:  time.Now(),
+			ID:              id,
+			ComputeCapacity: gpuCapacity,
+			FreeCompute:     gpuCapacity - used[id],
+			MemoryGB:        placeholderMemoryGB,
+			FreeMemoryGB:    placeholderMemoryGB, // TODO Chunk 3: subtract real memory usage
+			Tier:            placeholderTier,
+			CostPerUnitHour: placeholderCost,
+			LastUsed:        time.Now(),
 		})
 	}
 	return gpus, nil
