@@ -7,31 +7,32 @@ import (
 	pluginapi "k8s.io/kubelet/pkg/apis/deviceplugin/v1beta1"
 )
 
-const unitsPerGPU = 10
+const defaultUnitsPerGPU = 10
 
 // SimulatedGPUPlugin reports a simulated pool of fractional units for ONE
 // physical GPU (this node represents a single GPU in our simulated
-// topology). GPUID identifies which GPU this instance represents, purely
-// for device ID/logging purposes -- the resource name itself (set in
-// main.go, e.g. "simulated.com/gpu-2") is what Kubernetes actually uses
-// to distinguish GPUs from each other.
+// topology). GPUID identifies which GPU this instance represents.
+// DeviceCount controls how many devices to report -- defaults to 10
+// (compute units) if left zero, but can be set to a tier's memory GB
+// value (16/40/80) when this plugin instance is registering a memory
+// resource instead of a compute one.
 type SimulatedGPUPlugin struct {
 	pluginapi.UnimplementedDevicePluginServer
-	GPUID string
+	GPUID       string
+	DeviceCount int
 }
 
 func (p *SimulatedGPUPlugin) GetDevicePluginOptions(ctx context.Context, e *pluginapi.Empty) (*pluginapi.DevicePluginOptions, error) {
 	return &pluginapi.DevicePluginOptions{}, nil
 }
 
-// buildDeviceList returns unitsPerGPU devices, all belonging to this one
-// GPU. IDs no longer need to encode a GPU number for grouping purposes --
-// the resource name this plugin registers under already scopes these
-// units to one GPU -- but we keep GPUID in the ID string for readability
-// when inspecting checkpoint/logs.
 func (p *SimulatedGPUPlugin) buildDeviceList() []*pluginapi.Device {
+	count := p.DeviceCount
+	if count == 0 {
+		count = defaultUnitsPerGPU
+	}
 	var devices []*pluginapi.Device
-	for u := 0; u < unitsPerGPU; u++ {
+	for u := 0; u < count; u++ {
 		devices = append(devices, &pluginapi.Device{
 			ID:     fmt.Sprintf("gpu-%s-unit-%d", p.GPUID, u),
 			Health: pluginapi.Healthy,

@@ -1,0 +1,21 @@
+{
+  "strategy": "MostAllocated",
+  "mode": "shared",
+  "load_level_pct": 90,
+  "seed": 4,
+  "timestamp": "2026-08-11T10:32:55.750806888Z",
+  "total_jobs": 18,
+  "total_demand_units": 58,
+  "scheduled": 17,
+  "pending": 1,
+  "denied_by_webhook": 0,
+  "total_scheduled_units": 52,
+  "submission_errors": 0,
+  "max_free_compute": 4,
+  "total_free_compute": 8,
+  "utilization_pct": 86.66666666666667,
+  "idle_dollars_wasted": 1.3866666666666667,
+  "cost_per_job": 0.5652941176470588,
+  "probe_job_succeeded": false,
+  "valid": true
+}

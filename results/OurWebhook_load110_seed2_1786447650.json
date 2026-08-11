@@ -1,0 +1,21 @@
+{
+  "strategy": "OurWebhook",
+  "mode": "webhook",
+  "load_level_pct": 110,
+  "seed": 2,
+  "timestamp": "2026-08-11T11:27:30.28247034Z",
+  "total_jobs": 24,
+  "total_demand_units": 72,
+  "scheduled": 19,
+  "pending": 0,
+  "denied_by_webhook": 5,
+  "total_scheduled_units": 48,
+  "submission_errors": 0,
+  "max_free_compute": 7,
+  "total_free_compute": 12,
+  "utilization_pct": 80,
+  "idle_dollars_wasted": 2.08,
+  "cost_per_job": 0.5031578947368421,
+  "probe_job_succeeded": false,
+  "valid": true
+}
