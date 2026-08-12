@@ -1,4 +1,4 @@
-# Phase 4 Benchmark Results
+# Benchmark Results
 
 Aggregated from 120 individual runs across 4 load levels (50%, 75%, 90%, 110% of total compute capacity), 10 seeds per level per strategy, 3 strategies.
 
