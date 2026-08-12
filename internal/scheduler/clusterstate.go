@@ -9,6 +9,8 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
+
+	"gpu-bin-packing-scheduler/internal/clusterstate"
 )
 
 const (
@@ -19,8 +21,6 @@ const (
 	computeCapacity  = 10
 )
 
-// tierSpec defines the fixed properties of a GPU tier -- memory capacity
-// and hourly cost, loosely modeled on real H100/A100/T4-L40S pricing.
 type tierSpec struct {
 	memoryGB        int
 	costPerUnitHour float64
@@ -32,13 +32,13 @@ var tierSpecs = map[Tier]tierSpec{
 	TierEconomy: {memoryGB: 16, costPerUnitHour: 0.07},
 }
 
-// FetchClusterState queries the live cluster for current GPU allocation
-// state: real compute usage comes from Kubernetes' own resource
-// accounting (simulated.com/gpu-N is a real, enforced resource type).
-// Memory usage is NOT a real Kubernetes resource in this simulation --
-// it's self-tracked via a "gpu-memory-allocated" annotation the webhook
-// stamps on each pod it places, summed here per node.
-func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset) ([]GPU, error) {
+// FetchClusterState queries live cluster state. Compute/memory usage is
+// counted from any pod (Running OR Pending) that already carries our GPU
+// resource requests, since a Pending-but-mutated pod represents a real,
+// already-decided claim even before Kubernetes starts it. The reservation
+// ledger only needs to cover the narrower window before the pod object
+// even exists in the API server yet.
+func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset, ledger *clusterstate.ReservationLedger) ([]GPU, error) {
 	nodes, err := clientset.CoreV1().Nodes().List(ctx, metav1.ListOptions{
 		LabelSelector: gpuIDLabelKey,
 	})
@@ -46,17 +46,26 @@ func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset) ([]
 		return nil, fmt.Errorf("failed to list GPU nodes: %w", err)
 	}
 
-	pods, err := clientset.CoreV1().Pods("").List(ctx, metav1.ListOptions{
-		FieldSelector: "status.phase=Running",
-	})
+	allPods, err := clientset.CoreV1().Pods("").List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to list pods: %w", err)
 	}
 
-	usedCompute := make(map[string]int) // gpu ID -> compute units used
-	usedMemory := make(map[string]int)  // gpu ID -> memory GB used (self-tracked)
+	usedCompute := make(map[string]int)
+	usedMemory := make(map[string]int)
+	seenPodNames := make(map[string]bool)
 
-	for _, pod := range pods.Items {
+	for _, pod := range allPods.Items {
+		seenPodNames[pod.Name] = true
+
+		// Only count pods that are still active (not terminal) and have
+		// actually been mutated with a GPU resource request. This covers
+		// both Running and Pending-but-scheduled pods.
+		if pod.Status.Phase == "Succeeded" || pod.Status.Phase == "Failed" {
+			continue
+		}
+
+		hasGPURequest := false
 		for _, container := range pod.Spec.Containers {
 			for resName, qty := range container.Resources.Requests {
 				name := string(resName)
@@ -65,7 +74,11 @@ func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset) ([]
 				}
 				gpuID := strings.TrimPrefix(name, resourcePrefix)
 				usedCompute[gpuID] += int(qty.Value())
+				hasGPURequest = true
 			}
+		}
+		if !hasGPURequest {
+			continue
 		}
 		if memStr, ok := pod.Annotations[memAnnotationKey]; ok {
 			if memVal, err := strconv.Atoi(memStr); err == nil {
@@ -93,12 +106,30 @@ func FetchClusterState(ctx context.Context, clientset *kubernetes.Clientset) ([]
 			return nil, fmt.Errorf("node %s has unknown gpu-tier value %q", node.Name, tierStr)
 		}
 
+		// Reconcile reservations: once a reserved pod is visible in the API
+		// server at all (any phase), the loop above already counts its real
+		// usage if it has GPU requests, so the reservation is redundant and
+		// safe to clear. Only pods that don't exist yet in the API server
+		// still need to be covered by the reservation.
+		reservedCompute := 0
+		reservedMemory := 0
+		if ledger != nil {
+			for _, r := range ledger.ActiveForGPU(gpuID) {
+				if seenPodNames[r.PodName] {
+					ledger.ClearByPodName(gpuID, r.PodName)
+					continue
+				}
+				reservedCompute += r.ComputeUnits
+				reservedMemory += r.MemoryGB
+			}
+		}
+
 		gpus = append(gpus, GPU{
 			ID:              gpuID,
 			ComputeCapacity: computeCapacity,
-			FreeCompute:     computeCapacity - usedCompute[gpuID],
+			FreeCompute:     computeCapacity - usedCompute[gpuID] - reservedCompute,
 			MemoryGB:        spec.memoryGB,
-			FreeMemoryGB:    spec.memoryGB - usedMemory[gpuID],
+			FreeMemoryGB:    spec.memoryGB - usedMemory[gpuID] - reservedMemory,
 			Tier:            tier,
 			CostPerUnitHour: spec.costPerUnitHour,
 			LastUsed:        time.Now(),

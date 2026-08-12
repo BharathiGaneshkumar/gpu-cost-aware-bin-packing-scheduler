@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: race-job-1
+  annotations:
+    gpu-units-needed: "3"
+    gpu-memory-needed: "5"
+    gpu-job-type: "batch-tolerant"
+    gpu-expected-duration: "60"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]

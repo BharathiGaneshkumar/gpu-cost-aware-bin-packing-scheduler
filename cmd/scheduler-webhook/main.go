@@ -18,6 +18,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
+	"gpu-bin-packing-scheduler/internal/clusterstate"
 	"gpu-bin-packing-scheduler/internal/scheduler"
 )
 
@@ -43,6 +44,7 @@ var (
 	recentJobSizes   []int
 	recentJobSizesMu sync.Mutex
 )
+var reservationLedger = clusterstate.NewReservationLedger()
 
 func main() {
 	config, err := rest.InClusterConfig()
@@ -106,7 +108,7 @@ func buildResponse(ctx context.Context, uid types.UID, pod corev1.Pod) *admissio
 	jobType := parseJobType(pod)
 	durationSeconds := parseIntAnnotation(pod, durationAnnotationKey, 0) // 0 = unspecified
 
-	gpus, err := scheduler.FetchClusterState(ctx, clientset)
+	gpus, err := scheduler.FetchClusterState(ctx, clientset, reservationLedger)
 	if err != nil {
 		log.Printf("pod %s: failed to fetch cluster state: %v", pod.Name, err)
 		base.Allowed = false
@@ -133,6 +135,8 @@ func buildResponse(ctx context.Context, uid types.UID, pod corev1.Pod) *admissio
 	}
 
 	log.Printf("pod %s: selected gpu-%s (units=%d, memoryGB=%d, type=%s, recentAvg=%d)", pod.Name, gpuID, units, memoryGB, jobType, recentAvg)
+
+	reservationLedger.Add(gpuID, units, memoryGB, pod.Name)
 
 	patch := buildPatch(pod, gpuID, units, memoryGB)
 	patchBytes, _ := json.Marshal(patch)
