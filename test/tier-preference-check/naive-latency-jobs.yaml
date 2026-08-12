@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: naive-latency-1
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+        limits:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: naive-latency-2
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+        limits:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: naive-latency-3
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+        limits:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: naive-latency-4
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+        limits:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: naive-latency-5
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+      resources:
+        requests:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"
+        limits:
+          simulated.com/gpu-capacity: "8"
+          simulated.com/gpu-capacity-mem: "10"

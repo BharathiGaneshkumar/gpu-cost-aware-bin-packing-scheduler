@@ -1,6 +1,7 @@
 package workload
 
 import (
+	"fmt"
 	"math/rand"
 	"strconv"
 )
@@ -126,4 +127,31 @@ func generateDuration(rng *rand.Rand) int {
 		return shortJobMinSeconds + rng.Intn(shortJobMaxSeconds-shortJobMinSeconds+1)
 	}
 	return longJobMinSeconds + rng.Intn(longJobMaxSeconds-longJobMinSeconds+1)
+}
+
+// GenerateTiebreakBatch produces jobs of identical size (fixed units and
+// memory) so that best-fit scoring alone cannot distinguish between GPUs
+// with equal leftover capacity. This isolates the tie-breaker cascade
+// (duration-fit, cost-tier, LRU) for evaluation, which Phase 4's random
+// workload rarely exercised since job sizes rarely tied exactly.
+func GenerateTiebreakBatch(count int, fixedUnits, fixedMemoryGB int) []Job {
+	jobs := make([]Job, 0, count)
+	for i := 0; i < count; i++ {
+		jobType := "batch-tolerant"
+		if i%2 == 0 {
+			jobType = "latency-sensitive"
+		}
+		duration := 60 // short
+		if i%2 == 1 {
+			duration = 900 // long
+		}
+		jobs = append(jobs, Job{
+			Name:                    fmt.Sprintf("tiebreak-job-%d", i),
+			Units:                   fixedUnits,
+			MemoryGB:                fixedMemoryGB,
+			Type:                    jobType,
+			ExpectedDurationSeconds: duration,
+		})
+	}
+	return jobs
 }

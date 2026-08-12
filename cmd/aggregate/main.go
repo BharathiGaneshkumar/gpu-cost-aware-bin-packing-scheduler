@@ -51,6 +51,10 @@ func main() {
 	if len(os.Args) > 1 {
 		resultsDir = os.Args[1]
 	}
+	outputPath := "RESULTS.md"
+	if len(os.Args) > 2 {
+		outputPath = os.Args[2]
+	}
 
 	files, err := filepath.Glob(filepath.Join(resultsDir, "*.json"))
 	if err != nil {
@@ -117,12 +121,12 @@ func main() {
 	})
 
 	var md string
-	md += "# Phase 4 Benchmark Results\n\n"
-	md += fmt.Sprintf("Aggregated from %d individual runs across 4 load levels (50%%, 75%%, 90%%, 110%% of total compute capacity), 10 seeds per level per strategy, 3 strategies.\n\n", len(files))
+	md += "# Benchmark Results\n\n"
+	md += fmt.Sprintf("Aggregated from %d individual runs.\n\n", len(files))
 	md += "| Load | Strategy | Runs | Avg Scheduled Units % | Avg Denied/Pending % | Avg Max Free/GPU | Avg Utilization % | Avg Idle $ Wasted | Avg Cost/Job | Probe Success Rate |\n"
 	md += "|---|---|---|---|---|---|---|---|---|---|\n"
 
-	fmt.Println("=== Phase 4 Aggregated Results ===\n")
+	fmt.Println("=== Aggregated Results ===\n")
 	fmt.Printf("%-6s %-16s %-6s %-10s %-10s %-10s %-8s %-10s %-10s %-8s\n",
 		"Load", "Strategy", "Runs", "Sched%", "Den/Pend%", "MaxFree", "Util%", "IdleWaste", "Cost/Job", "Probe%")
 
@@ -150,11 +154,11 @@ func main() {
 			schedPct, deniedPct, maxFree, totalFree, util, idleWaste, costPerJob, probeRate)
 	}
 
-	if err := os.WriteFile("PHASE4_RESULTS.md", []byte(md), 0644); err != nil {
-		fmt.Fprintf(os.Stderr, "failed to write PHASE4_RESULTS.md: %v\n", err)
+	if err := os.WriteFile(outputPath, []byte(md), 0644); err != nil {
+		fmt.Fprintf(os.Stderr, "failed to write %s: %v\n", outputPath, err)
 		os.Exit(1)
 	}
-	fmt.Println("\nWrote PHASE4_RESULTS.md")
+	fmt.Println("\nWrote " + outputPath)
 }
 
 func ifInvalid(n int) string {

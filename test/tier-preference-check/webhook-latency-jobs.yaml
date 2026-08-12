@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webhook-latency-1
+  annotations:
+    gpu-units-needed: "8"
+    gpu-memory-needed: "10"
+    gpu-job-type: "latency-sensitive"
+    gpu-expected-duration: "300"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webhook-latency-2
+  annotations:
+    gpu-units-needed: "8"
+    gpu-memory-needed: "10"
+    gpu-job-type: "latency-sensitive"
+    gpu-expected-duration: "300"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webhook-latency-3
+  annotations:
+    gpu-units-needed: "8"
+    gpu-memory-needed: "10"
+    gpu-job-type: "latency-sensitive"
+    gpu-expected-duration: "300"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webhook-latency-4
+  annotations:
+    gpu-units-needed: "8"
+    gpu-memory-needed: "10"
+    gpu-job-type: "latency-sensitive"
+    gpu-expected-duration: "300"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webhook-latency-5
+  annotations:
+    gpu-units-needed: "8"
+    gpu-memory-needed: "10"
+    gpu-job-type: "latency-sensitive"
+    gpu-expected-duration: "300"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]

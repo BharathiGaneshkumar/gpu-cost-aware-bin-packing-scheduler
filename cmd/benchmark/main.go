@@ -65,6 +65,19 @@ func main() {
 	loadLevels := flag.String("loadLevels", "50,75,90,110", "comma-separated load levels as % of total compute capacity")
 	seedCount := flag.Int("seedCount", 10, "number of seeds to run per load level")
 	outDir := flag.String("outDir", "results", "directory to write JSON result files")
+
+	// jobMode selects how the batch of jobs for each trial is generated.
+	// "random" (default) reproduces Phase 4's realistic workload mix via
+	// GenerateBatchForDemand. "tiebreak" produces jobs of identical size
+	// via GenerateTiebreakBatch, so best-fit scoring alone can't
+	// distinguish between GPUs with equal leftover capacity -- this
+	// isolates the tie-breaker cascade (duration-fit, cost-tier, LRU)
+	// for evaluation, since Phase 4's random workload rarely produced
+	// genuine ties.
+	jobMode := flag.String("jobMode", "random", "job generation mode: random|tiebreak")
+	tiebreakCount := flag.Int("tiebreakCount", 20, "number of jobs to generate in tiebreak mode")
+	tiebreakUnits := flag.Int("tiebreakUnits", 3, "fixed units per job in tiebreak mode")
+	tiebreakMemGB := flag.Int("tiebreakMemGB", 5, "fixed memoryGB per job in tiebreak mode")
 	flag.Parse()
 
 	if *kubeContext == "" || *mode == "" || *strategyName == "" {
@@ -72,6 +85,9 @@ func main() {
 	}
 	if *mode != "shared" && *mode != "webhook" {
 		log.Fatal("--mode must be 'shared' or 'webhook'")
+	}
+	if *jobMode != "random" && *jobMode != "tiebreak" {
+		log.Fatal("--jobMode must be 'random' or 'tiebreak'")
 	}
 
 	if err := os.MkdirAll(*outDir, 0755); err != nil {
@@ -95,7 +111,7 @@ func main() {
 				continue
 			}
 
-			result, err := runSingleTrial(ctx, clientset, *strategyName, *mode, level, seed)
+			result, err := runSingleTrial(ctx, clientset, *strategyName, *mode, level, seed, *jobMode, *tiebreakCount, *tiebreakUnits, *tiebreakMemGB)
 			if err != nil {
 				log.Printf("run failed: %v", err)
 				continue
@@ -171,14 +187,23 @@ func buildNodeToGPUID(ctx context.Context, clientset *kubernetes.Clientset) (map
 	return m, nil
 }
 
-func runSingleTrial(ctx context.Context, clientset *kubernetes.Clientset, strategy, mode string, loadPct int, seed int64) (*RunResult, error) {
+func runSingleTrial(ctx context.Context, clientset *kubernetes.Clientset, strategy, mode string, loadPct int, seed int64, jobMode string, tiebreakCount, tiebreakUnits, tiebreakMemGB int) (*RunResult, error) {
 	nodeToGPUID, err := buildNodeToGPUID(ctx, clientset)
 	if err != nil {
 		return nil, fmt.Errorf("failed to build node->gpu-id map: %w", err)
 	}
 
-	targetDemandUnits := int(float64(totalComputeCapacity) * float64(loadPct) / 100.0)
-	jobs := workload.GenerateBatchForDemand(targetDemandUnits, seed)
+	// Job generation branches on jobMode: "tiebreak" produces a
+	// fixed-size batch (see GenerateTiebreakBatch doc comment) to force
+	// genuine scoring ties; "random" reproduces Phase 4's realistic
+	// demand-based generation unchanged.
+	var jobs []workload.Job
+	if jobMode == "tiebreak" {
+		jobs = workload.GenerateTiebreakBatch(tiebreakCount, tiebreakUnits, tiebreakMemGB)
+	} else {
+		targetDemandUnits := int(float64(totalComputeCapacity) * float64(loadPct) / 100.0)
+		jobs = workload.GenerateBatchForDemand(targetDemandUnits, seed)
+	}
 	n := len(jobs)
 
 	totalUnits := 0

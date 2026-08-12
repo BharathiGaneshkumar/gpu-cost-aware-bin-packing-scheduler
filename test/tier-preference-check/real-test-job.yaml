@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: real-test-job
+  annotations:
+    gpu-units-needed: "2"
+    gpu-memory-needed: "2"
+    gpu-job-type: "batch-tolerant"
+    gpu-expected-duration: "60"
+spec:
+  containers:
+    - name: workload
+      image: busybox
+      command: ["sleep", "3600"]

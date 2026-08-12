@@ -1,0 +1,550 @@
+=== LeastAllocated ===
+
+=== LeastAllocated | load=70% | seed=1 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-1
+  tiebreak-job-1    Running     GPU-0
+  tiebreak-job-2    Running     GPU-3
+  tiebreak-job-3    Running     GPU-2
+  tiebreak-job-4    Running     GPU-0
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-1
+  tiebreak-job-7    Running     GPU-5
+  tiebreak-job-8    Running     GPU-2
+  tiebreak-job-9    Running     GPU-3
+  tiebreak-job-10   Running     GPU-1
+  tiebreak-job-11   Running     GPU-0
+  tiebreak-job-12   Running     GPU-3
+  tiebreak-job-13   Running     GPU-4
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=7/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.591  probeSucceeded=false  valid=true
+
+=== LeastAllocated | load=70% | seed=2 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-0
+  tiebreak-job-1    Running     GPU-1
+  tiebreak-job-2    Running     GPU-3
+  tiebreak-job-3    Running     GPU-2
+  tiebreak-job-4    Running     GPU-0
+  tiebreak-job-5    Running     GPU-5
+  tiebreak-job-6    Running     GPU-1
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-2
+  tiebreak-job-9    Running     GPU-3
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-1
+  tiebreak-job-12   Running     GPU-2
+  tiebreak-job-13   Running     GPU-4
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=7/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.591  probeSucceeded=false  valid=true
+
+=== LeastAllocated | load=70% | seed=3 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-1
+  tiebreak-job-1    Running     GPU-0
+  tiebreak-job-2    Running     GPU-3
+  tiebreak-job-3    Running     GPU-2
+  tiebreak-job-4    Running     GPU-1
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-0
+  tiebreak-job-7    Running     GPU-5
+  tiebreak-job-8    Running     GPU-2
+  tiebreak-job-9    Running     GPU-3
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-1
+  tiebreak-job-12   Running     GPU-2
+  tiebreak-job-13   Running     GPU-4
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=7/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.591  probeSucceeded=false  valid=true
+
+=== LeastAllocated | load=70% | seed=4 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-0
+  tiebreak-job-1    Running     GPU-1
+  tiebreak-job-2    Running     GPU-3
+  tiebreak-job-3    Running     GPU-2
+  tiebreak-job-4    Running     GPU-0
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-1
+  tiebreak-job-7    Running     GPU-5
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-2
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-1
+  tiebreak-job-12   Running     GPU-2
+  tiebreak-job-13   Running     GPU-4
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=7/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.591  probeSucceeded=false  valid=true
+
+=== LeastAllocated | load=70% | seed=5 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-1
+  tiebreak-job-1    Running     GPU-0
+  tiebreak-job-2    Running     GPU-3
+  tiebreak-job-3    Running     GPU-2
+  tiebreak-job-4    Running     GPU-0
+  tiebreak-job-5    Running     GPU-5
+  tiebreak-job-6    Running     GPU-1
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-2
+  tiebreak-job-9    Running     GPU-3
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-1
+  tiebreak-job-12   Running     GPU-2
+  tiebreak-job-13   Running     GPU-4
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=7/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.591  probeSucceeded=false  valid=true
+
+All runs complete.
+=== MostAllocated ===
+
+=== MostAllocated | load=70% | seed=1 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== MostAllocated | load=70% | seed=2 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-3
+  tiebreak-job-1    Running     GPU-3
+  tiebreak-job-2    Running     GPU-3
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-2
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-2
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-2
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== MostAllocated | load=70% | seed=3 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-1
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-1
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== MostAllocated | load=70% | seed=4 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== MostAllocated | load=70% | seed=5 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+All runs complete.
+=== OurWebhook ===
+
+=== OurWebhook | load=70% | seed=1 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== OurWebhook | load=70% | seed=2 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== OurWebhook | load=70% | seed=3 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== OurWebhook | load=70% | seed=4 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+=== OurWebhook | load=70% | seed=5 ===
+  Generated 14 jobs (target load 70%, total compute demand 42/60 units):
+  NAME              UNITS  MEM(GB)  TYPE               DURATION(s)
+  tiebreak-job-0    3      5        latency-sensitive  60
+  tiebreak-job-1    3      5        batch-tolerant     900
+  tiebreak-job-2    3      5        latency-sensitive  60
+  tiebreak-job-3    3      5        batch-tolerant     900
+  tiebreak-job-4    3      5        latency-sensitive  60
+  tiebreak-job-5    3      5        batch-tolerant     900
+  tiebreak-job-6    3      5        latency-sensitive  60
+  tiebreak-job-7    3      5        batch-tolerant     900
+  tiebreak-job-8    3      5        latency-sensitive  60
+  tiebreak-job-9    3      5        batch-tolerant     900
+  tiebreak-job-10   3      5        latency-sensitive  60
+  tiebreak-job-11   3      5        batch-tolerant     900
+  tiebreak-job-12   3      5        latency-sensitive  60
+  tiebreak-job-13   3      5        batch-tolerant     900
+  Outcomes:
+  NAME              STATUS      GPU
+  tiebreak-job-0    Running     GPU-2
+  tiebreak-job-1    Running     GPU-2
+  tiebreak-job-2    Running     GPU-2
+  tiebreak-job-3    Running     GPU-4
+  tiebreak-job-4    Running     GPU-3
+  tiebreak-job-5    Running     GPU-4
+  tiebreak-job-6    Running     GPU-3
+  tiebreak-job-7    Running     GPU-4
+  tiebreak-job-8    Running     GPU-3
+  tiebreak-job-9    Running     GPU-5
+  tiebreak-job-10   Running     GPU-0
+  tiebreak-job-11   Running     GPU-5
+  tiebreak-job-12   Running     GPU-0
+  tiebreak-job-13   Running     GPU-5
+
+  SUMMARY: scheduled=14/14 (42/42 units)  denied=0  maxFreeCompute=10/10  totalFree=18/60 (30%)  util=70.0%  idleWaste=$3.12  costPerJob=$0.411  probeSucceeded=true  valid=true
+
+All runs complete.
+All tiebreak runs complete.
